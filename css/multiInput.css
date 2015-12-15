@@ -1,0 +1,45 @@
+
+.multi-input{
+    min-height: 32px;
+    width: 215px;
+    margin-left: 102px;
+}
+
+.input-option{
+	width: 215px;
+	margin-bottom: 10px;
+}
+
+.input-option input{
+	width: 165px!important;
+	border: 2px solid #DFDFDF;
+    height: 25px !important;
+    padding: 2px 4px;
+}
+
+.input-option input:focus{
+	border: 2px solid #000;
+}
+
+.input-option i{
+	font-size: 17px;
+	color: #D4D4D4;
+	transition: all 0.3s ease 0s;
+}
+
+.input-option i:hover{
+	cursor:pointer;
+	color: #9B9B9B;
+}
+
+
+
+
+
+
+
+
+
+
+
+
