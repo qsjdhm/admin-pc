@@ -24,7 +24,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 /* Layout */
-import Layout from '@/layout'
+import Layout from '@/layout/index'
+import BlankRouteLayout from '@/layout/blank-route-layout'
 
 Vue.use(Router)
 
@@ -90,6 +91,51 @@ export const asyncRoutes = [
                 name: 'ProgramView',
                 meta: { title: 'ProgramView', icon: 'dashboard' }
             }
+        ]
+    },
+    {
+        path: '/technology',
+        component: Layout,
+        redirect: '/technology/bom-list',
+        children: [
+            {
+                path: 'bom-list',
+                component: () => import('@/views/technology/bom/list'),
+                name: 'TechnologyBomList',
+                meta: { title: 'TechnologyBomList', icon: 'dashboard' }
+            },
+            {
+                path: 'bom-view',
+                component: () => import('@/views/technology/bom/view'),
+                name: 'TechnologyBomView',
+                meta: { title: 'TechnologyBomView', icon: 'dashboard' }
+            },
+            {
+                path: 'path',
+                component: BlankRouteLayout,
+                name: 'TechnologyPath',
+                meta: { title: 'TechnologyPath', icon: 'dashboard' },
+                children: [
+                    {
+                        path: 'work-step-list',
+                        component: () => import('@/views/technology/work-step/list'),
+                        name: 'TechnologyWorkStepList',
+                        meta: { title: 'TechnologyWorkStepList', icon: 'dashboard' }
+                    },
+                    {
+                        path: 'work-step-view',
+                        component: () => import('@/views/technology/work-step/view'),
+                        name: 'TechnologyWorkStepView',
+                        meta: { title: 'TechnologyWorkStepView', icon: 'dashboard' }
+                    },
+                    {
+                        path: 'process-flow',
+                        component: () => import('@/views/technology/process-flow/index'),
+                        name: 'TechnologyProcessFlow',
+                        meta: { title: 'TechnologyProcessFlow', icon: 'dashboard' }
+                    }
+                ]
+            },
         ]
     },
     {

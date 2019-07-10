@@ -6,9 +6,17 @@
 </template>
 
 <script>
-// @ is an alias to /src
+    // @ is an alias to /src
 
-export default {
-    name: 'BlankRouteLayout'
-}
+    export default {
+        name: 'BlankRouteLayout'
+    }
 </script>
+
+<style rel="stylesheet/scss" lang="scss" scoped>
+    .blank-route-layout {
+        position: relative;
+        height: 100%;
+        width: 100%;
+    }
+</style>
