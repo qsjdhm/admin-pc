@@ -1,11 +1,49 @@
-/*
-Write your variables here. All available variables can be
-found in element-ui/packages/theme-chalk/src/common/var.scss.
-For example, to overwrite the theme color:
-*/
-$--color-primary: teal;
+/** 按钮色系 **/
+$btnBlueDarken: #538FFD; // 操作按钮开启蓝色
+$btnGreenDarken: #00a854; // 操作按钮开启蓝色
+$btnYellowDarken: #ffbf00; // 操作按钮关闭黄色
+/**界面色系,pg为page页面缩写，blue为色系，Main类似的后缀为颜色作用**/
+$bg: #fcfcfc; //界面主背景色
+$pgBlueMain: #3778ff; //界面主色
+$pgBlueDarken: #3e8aff; //界面辅色深蓝
+$pgBlueLighten: #51a4ff; //界面辅色浅蓝
+$pgGreenAsist: #8dc81b; //界面点缀色绿色
+$pgGreenAsist: #8dc81b; //界面点缀色绿色
+$pgOrgAsist: #ff8c10; //界面点缀色橙色
+$pgRedAsist: #f85a44; //界面点缀色红色
+/**文字色系,txt为text文本缩写，blue为色系，Main类似的后缀为颜色作用**/
+$txtBlueMain: #538FFD; //文字蓝色
+$txtRedMain: #F56C6C; //文字红色
+$txtDarkMain: #464c56; //文字主色
+$txtGrayDark: #969fa9; //文字辅助深灰色
+$txtGrayMid: #c3ced9; //文字辅助中等灰色
+$txtGrayLight: #c3ced9; //文字辅助浅灰色
+/**标签色系,tg为tag标签缩写，blue为色系，Main类似的后缀为颜色作用**/
+$tgBlueMain: #428DFF; //标签主要蓝色
+$tgYellowMain: #FF8C10; //标签主要黄色
+$tgPurpleMain: #8D57FA; //标签主要紫色
+$tgBlueShadow: #0C4173; //标签投影蓝色
+$tgYellowShadow: #803102; //标签投影黄色
+$tgPurpleShadow: #581F83; //标签投影紫色
+$tgBlueGradD: #3778FF; //标签渐变深蓝
+$tgBlueGradL: #4B91FC; //标签渐变浅蓝
+$tgYellowGradD: #F66A1A; //标签渐变深黄
+$tgYellowGradL: #FF8C10; //标签渐变浅黄
+$tgPurpleGradD: #6643C9; //标签渐变深紫
+$tgPurpleGradL: #8D57FA; //标签渐变浅紫
+$colorWhite: #fff; //toast bg
 
-/* icon font path, required */
-$--font-path: '~element-ui/lib/theme-chalk/fonts';
 
-@import "~element-ui/packages/theme-chalk/src/index";
+// base color
+$blue:#324157;
+$light-blue:#3A71A8;
+$red:#C03639;
+$pink: #E65D6E;
+$green: #30B08F;
+$tiffany: #4AB7BD;
+$yellow:#FEC171;
+$panGreen: #30B08F;
+
+
+// the :export directive is the magic sauce for webpack
+// https://www.bluematador.com/blog/how-to-share-variables-between-js-and-sass

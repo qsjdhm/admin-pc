@@ -13,7 +13,6 @@ const modules = modulesFiles.keys().reduce((modules, modulePath) => {
   modules[moduleName] = value.default
   return modules
 }, {})
-
 export default new Vuex.Store({
     state: {},
     getters: {},

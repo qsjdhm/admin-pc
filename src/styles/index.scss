@@ -1,15 +1,13 @@
-/**
- * 基础样式
- */
+@import './element-variables.scss';
+@import './element-reset.scss';
+@import './mixin.scss';
+@import './variables.scss';
 
 html {
-    height: 100%;
-    /*box-sizing: border-box;*/
+    overflow: hidden;
 }
 
 body {
-    padding: 0;
-    margin: 0;
     height: 100%;
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
@@ -21,18 +19,26 @@ label {
     font-weight: 700;
 }
 
-#app {
+html {
     height: 100%;
+    box-sizing: border-box;
 }
 
-// path { fill: inherit !important }
+body {
+    padding: 0;
+    margin: 0;
+}
+
+#app {
+    height: 100%;
+    margin: 0;
+}
 
 *,
 *:before,
 *:after {
     box-sizing: inherit;
 }
-
 
 a:focus,
 a:active {

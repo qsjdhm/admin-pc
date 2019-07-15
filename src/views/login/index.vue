@@ -35,12 +35,11 @@
         },
         methods: {
             loginClick () {
-                this.$fetch('/auth/login', 'post', {
+                this.$store.dispatch('user/login', {
                     username: this.username,
                     password: this.password
                 }).then((response) => {
-                    console.info('login-------------------')
-                    console.info(response)
+                    this.$router.push({ path: this.redirect || 'dashboard' })
                 })
                 // this.$fetch('/auth/login', 'post', {
                 //     username: this.username,

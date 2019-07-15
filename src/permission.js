@@ -33,7 +33,8 @@ router.beforeEach((to, from, next) => {
             // 初始化菜单路由
             store.dispatch('permission/initRoutes').then(() => {
                 // 动态添加可访问路由表
-                router.addRoutes(store.state.Permission.routes)
+                router.addRoutes(store.state.permission.routes)
+                console.info(store.state.permission.routes)
                 // hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
                 next({ ...to, replace: true })
             }).catch((error) => {

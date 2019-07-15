@@ -1,12 +1,23 @@
 <template>
     <div class="layout">
+        <navbar />
+        <sidebar class="sidebar-container" />
+        <board />
         <router-view />
     </div>
 </template>
 
 <script>
+    import Navbar from './components/Navbar'
+    import Sidebar from './components/Sidebar'
+    import Board from './components/Board'
     export default {
-        name: 'Layout'
+        name: 'Layout',
+        components: {
+            Navbar,
+            Sidebar,
+            Board
+        }
     }
 </script>
 
@@ -15,5 +26,6 @@
         position: relative;
         height: 100%;
         width: 100%;
+
     }
 </style>

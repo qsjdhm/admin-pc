@@ -78,6 +78,7 @@ export const asyncRoutes = [
         path: '/program',
         component: Layout,
         redirect: '/program/list',
+        meta: { title: 'program', icon: 'dashboard' },
         children: [
             {
                 path: 'list',
@@ -97,6 +98,7 @@ export const asyncRoutes = [
         path: '/technology',
         component: Layout,
         redirect: '/technology/bom-list',
+        meta: { title: 'technology', icon: 'dashboard' },
         children: [
             {
                 path: 'bom-list',
@@ -142,6 +144,7 @@ export const asyncRoutes = [
         path: '/system',
         component: Layout,
         redirect: '/system/user',
+        meta: { title: 'system', icon: 'dashboard' },
         children: [
             {
                 path: 'user',
