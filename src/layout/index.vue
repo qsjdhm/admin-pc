@@ -1,22 +1,31 @@
 <template>
     <div class="layout">
-        <navbar />
         <sidebar class="sidebar-container" />
-        <board />
-        <router-view />
+        <!--<board />-->
+        <div class="main-container">
+            <div>
+                <navbar />
+                <tags-view />
+            </div>
+            <app-main />
+        </div>
     </div>
 </template>
 
 <script>
     import Navbar from './components/Navbar'
     import Sidebar from './components/Sidebar'
-    import Board from './components/Board'
+    //import Board from './components/Board'
+    import TagsView from './components/TagsView'
+    import AppMain from './components/AppMain'
     export default {
         name: 'Layout',
         components: {
             Navbar,
             Sidebar,
-            Board
+            //Board,
+            TagsView,
+            AppMain
         }
     }
 </script>
@@ -26,6 +35,6 @@
         position: relative;
         height: 100%;
         width: 100%;
-
+        background: #f5f5f5;
     }
 </style>

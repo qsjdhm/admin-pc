@@ -90,6 +90,7 @@ export const asyncRoutes = [
                 path: 'view',
                 component: () => import('@/views/program/view'),
                 name: 'ProgramView',
+                hidden: true,
                 meta: { title: 'ProgramView', icon: 'dashboard' }
             }
         ]

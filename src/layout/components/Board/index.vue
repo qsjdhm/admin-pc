@@ -22,7 +22,7 @@
         width: auto;
         position: absolute;
         font-size: 0px;
-        top: 54px;
+        top: 0;
         bottom: 0;
         left: 240px;
         z-index: 1001;

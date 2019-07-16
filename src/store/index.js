@@ -14,9 +14,21 @@ const modules = modulesFiles.keys().reduce((modules, modulePath) => {
   return modules
 }, {})
 export default new Vuex.Store({
-    state: {},
+    state: {
+        // 菜单是否是关闭状态
+        sidebarClosed: false
+    },
     getters: {},
-    mutations: {},
-    actions: {},
+    mutations: {
+        SET_SIDEBARCLOSED: (state, value) => {
+            state.sidebarClosed = value;
+        }
+    },
+    actions: {
+        // 修改菜单是否展开和隐藏
+        setSideBarClosed ({dispatch, commit, state, rootState}, value) {
+            commit('SET_SIDEBARCLOSED', value);
+        }
+    },
     modules
 })

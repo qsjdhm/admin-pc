@@ -1,12 +1,59 @@
-<!-- 用作整个系统业务页面的容器，如需要大屏或多级展示需使用big-screen-layout、blank-route-layout作为容器 -->
 <template>
-    <div class="sidebar"></div>
+    <section class="app-main">
+        <transition name="fade-transform" mode="out-in">
+            <keep-alive :include="cachedViews">
+                <router-view :key="key" />
+            </keep-alive>
+        </transition>
+    </section>
 </template>
 
 <script>
-// @ is an alias to /src
-
-export default {
-    name: "Sidebar"
-};
+    export default {
+        name: 'AppMain',
+        computed: {
+            cachedViews() {
+                return this.$store.state.tagsView.cachedViews
+            },
+            key() {
+                return this.$route.path
+            }
+        }
+    }
 </script>
+
+<style lang="scss" scoped>
+    .app-main {
+        position: absolute;
+        min-height: calc(100vh - 150px);
+        overflow: hidden;
+        left: 0;
+        right: 0;
+        top: 84px;
+        bottom: 0;
+    }
+
+    .fixed-header+.app-main {
+        padding-top: 50px;
+    }
+
+    .hasTagsView {
+        .app-main {
+            /* 84 = navbar + tags-view = 50 + 34 */
+            min-height: calc(100vh - 84px);
+        }
+
+        .fixed-header+.app-main {
+            padding-top: 84px;
+        }
+    }
+</style>
+
+<style lang="scss">
+    // fix css style bug in open el-dialog
+    .el-popup-parent--hidden {
+        .fixed-header {
+            padding-right: 15px;
+        }
+    }
+</style>

@@ -3,12 +3,14 @@
         <template v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children||onlyOneChild.noShowingChildren)&&!item.alwaysShow">
             <router-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)">
                 <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{'submenu-title-noDropdown':!isNest}">
+                    <svg-icon :icon-class="onlyOneChild.meta.icon !== undefined ? onlyOneChild.meta.icon : 'list'" />
                     <span slot="title">{{ onlyOneChild.meta.title }}</span>
                 </el-menu-item>
             </router-link>
         </template>
-        <el-submenu v-else ref="subMenu" :index="resolvePath(item.path)" popper-append-to-body>
+        <el-submenu v-else ref="subMenu" :index="resolvePath(item.path)">
             <template slot="title">
+                <svg-icon :icon-class="item.meta.icon !== undefined ? item.meta.icon : 'list'" />
                 <span v-if="item.meta" slot="title">{{ item.meta.title }}</span>
             </template>
             <sidebar-item

@@ -1,5 +1,6 @@
 <template>
     <div class="sidebar">
+        <logo :collapse="sidebarClosed" />
         <el-scrollbar wrap-class="scrollbar-wrapper">
             <el-menu
                 mode="vertical"
@@ -7,6 +8,7 @@
                 background-color="#001529"
                 text-color="#bcbcbc"
                 active-text-color="#fff"
+                :collapse="sidebarClosed"
                 :default-active="activeMenu"
                 :unique-opened="true"
                 :collapse-transition="true"
@@ -25,13 +27,14 @@
 
 <script>
     import { mapState, mapGetters } from 'vuex'
-
+    import Logo from './Logo'
     import SidebarItem from './SidebarItem'
 
     export default {
         name: 'Sidebar',
         components: {
-            SidebarItem
+            SidebarItem,
+            Logo
         },
         data () {
             return {
@@ -41,6 +44,7 @@
         },
         computed: {
             ...mapState({
+                sidebarClosed: state => state.sidebarClosed,
                 routes: state => state.permission.routes
             }),
             activeMenu () {
@@ -70,14 +74,21 @@
     $sideBarWidth: 240px;
     $borderRadius: 5px;
     #app {
+        .main-container {
+            min-height: 100%;
+            transition: margin-left .28s;
+            margin-left: $sideBarWidth;
+            position: relative;
+        }
 
         .sidebar-container {
             transition: width 0.28s;
             width: $sideBarWidth !important;
             background-color: $menuBg;
+            height: 100%;
             position: fixed;
             font-size: 0px;
-            top: 54px;
+            top: 0;
             bottom: 0;
             left: 0;
             z-index: 1001;
@@ -91,6 +102,7 @@
             .scrollbar-wrapper {
                 overflow-x: hidden !important;
                 background-color: #001529;
+                text-align: left;
             }
 
             .el-scrollbar__bar.is-vertical {

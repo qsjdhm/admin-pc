@@ -2,12 +2,15 @@ import Vue from 'vue'
 import App from './App.vue'
 import store from './store/index'
 import router from './router/index'
-import './permission' // permission control
+
 import Element from 'element-ui'
 // import './styles/element-variables.scss'
-import fetch from './utils/request'
-import '@/styles/index.scss' // 统一进入css文件入口
 
+import fetch from './utils/request'
+import './icons' // icon
+import './permission' // permission control
+
+import '@/styles/index.scss' // 统一进入css文件入口
 
 Vue.use(Element)
 
