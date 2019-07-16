@@ -24,8 +24,8 @@
         },
         data () {
             return {
-                title: '万腾云设备管理系统',
-                logo: require('./logo.png')
+                title: '设备云业务管理系统',
+                logo: require('./images/logo.png')
             }
         }
     }
@@ -55,7 +55,7 @@
             width: 100%;
 
             & .sidebar-logo {
-                width: 26px;
+                width: 38px;
                 vertical-align: middle;
             }
 

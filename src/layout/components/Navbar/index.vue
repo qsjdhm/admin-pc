@@ -3,7 +3,7 @@
         <div class="left-pack">
             <el-tooltip class="item" effect="dark" :content="!sidebarClosed ? '收缩菜单' : '展开菜单'" placement="bottom">
                 <div class="fold-pack" @click="foldClick">
-                    <img class="fold" src="./fold.png">
+                    <img class="fold" :src="require(`./images/fold.png`)">
                 </div>
             </el-tooltip>
             <div class="search-pack">
@@ -11,7 +11,7 @@
                     v-model="state"
                     popper-class="my-autocomplete"
                     :fetch-suggestions="querySearchAsync"
-                    placeholder="搜索此项目中的菜单"
+                    placeholder="搜索菜单，快速跳转"
                     @select="handleSelect"
                 >
                     <i
@@ -28,13 +28,13 @@
         <div class="right-pack">
             <el-tooltip class="item" effect="dark" content="进入领导驾驶舱系统" placement="bottom">
                 <div class="cockpit-pack">
-                    <img class="logo" src="./cockpit.png">
+                    <img class="logo" :src="require(`./images/cockpit.png`)">
                     <span class="title">领导驾驶舱</span>
                 </div>
             </el-tooltip>
             <el-dropdown @command="dropdownCommand">
                 <div class="user-pack el-dropdown-link">
-                    <img class="logo" :src="require(`./avatar.png`)">
+                    <img class="logo" :src="require(`./images/avatar.png`)">
                     <span>张小五</span>
                 </div>
                 <el-dropdown-menu slot="dropdown">
@@ -44,12 +44,12 @@
             </el-dropdown>
             <el-tooltip class="item" effect="dark" :content="!sidebarClosed ? '全屏' : '结束全屏'" placement="bottom">
                 <div class="full-pack" @click="fullClick">
-                    <img src="./full.png">
+                    <img :src="require(`./images/full.png`)">
                 </div>
             </el-tooltip>
             <el-tooltip class="item" effect="dark" content="登出" placement="bottom">
                 <div class="logout-pack">
-                    <img class="logout" src="./logout.png">
+                    <img class="logout" :src="require(`./images/logout.png`)">
                 </div>
             </el-tooltip>
         </div>
