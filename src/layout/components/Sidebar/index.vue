@@ -107,6 +107,7 @@
 
             .el-scrollbar__bar.is-vertical {
                 right: 0px;
+                bottom: 50px;
             }
 
             .el-scrollbar {
