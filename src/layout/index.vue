@@ -1,5 +1,5 @@
 <template>
-    <div class="layout">
+    <div :class="classObj" class="layout">
         <sidebar class="sidebar-container" />
         <!--<board />-->
         <div class="main-container">
@@ -18,6 +18,8 @@
     //import Board from './components/Board'
     import TagsView from './components/TagsView'
     import AppMain from './components/AppMain'
+    import { mapState } from 'vuex'
+
     export default {
         name: 'Layout',
         components: {
@@ -26,6 +28,17 @@
             //Board,
             TagsView,
             AppMain
+        },
+        computed: {
+            ...mapState({
+                sidebarClosed: state => state.sidebarClosed
+            }),
+            classObj() {
+                return {
+                    hideSidebar: this.sidebarClosed,
+                    openSidebar: !this.sidebarClosed
+                }
+            }
         }
     }
 </script>
