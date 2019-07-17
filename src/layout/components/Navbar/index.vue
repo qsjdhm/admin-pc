@@ -1,7 +1,7 @@
 <template>
     <div class="navbar">
         <div class="left-pack">
-            <el-tooltip class="item" effect="dark" :content="!sidebarClosed ? '收缩菜单' : '展开菜单'" placement="bottom">
+            <el-tooltip class="item" effect="dark" :content="!sidebarClosed ? '收缩菜单11' : '展开菜单'" placement="bottom">
                 <div class="fold-pack" @click="foldClick">
                     <img class="fold" :src="require(`./images/fold.png`)">
                 </div>
