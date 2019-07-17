@@ -10,7 +10,7 @@ import fetch from './utils/request'
 import './icons' // icon
 import './permission' // permission control
 
-import '@/styles/index.scss' // 统一进入css文件入口
+import '@/styles/index.scssss' // 统一进入css文件入口
 
 Vue.use(Element)
 
