@@ -3,20 +3,19 @@
  * Note: sub-menu only appear when route children.length >= 1
  * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
  *
- * hidden: true                   if set true, item will not show in the sidebar(default is false)
- * alwaysShow: true               if set true, will always show the root menu
- *                                if not set alwaysShow, when item has more than one children route,
- *                                it will becomes nested mode, otherwise not show the root menu
- * redirect: noRedirect           if set noRedirect will no redirect in the breadcrumb
- * name:'router-name'             the name is used by <keep-alive> (must set!!!)
+ * hidden: true                   如果设置为true，项目将不会显示在侧栏中(默认为false)
+ * alwaysShow: true               如果设置为true，将始终显示根菜单
+ *                                如果不总是设置show，当项目有多个子路由时，
+ *                                它将成为嵌套模式，否则不显示根菜单
+ * name:'router-name'             名称由<keep-alive>使用(必须设置!!)
  * meta : {
-    roles: ['admin','editor']    control the page roles (you can set multiple roles)
-    title: 'title'               the name show in sidebar and breadcrumb (recommend set)
-    icon: 'svg-name'             the icon show in the sidebar
-    noCache: true                if set true, the page will no be cached(default is false)
-    affix: true                  if set true, the tag will affix in the tags-view
-    breadcrumb: false            if set false, the item will hidden in breadcrumb(default is true)
-    activeMenu: '/example/list'  if set path, the sidebar will highlight the path you set
+    zhTitle: 'title'             菜单的中文名称(必须设置!!)
+    enTitle: 'title'             菜单的英文名称
+    icon: 'svg-name'             侧边栏的图标
+    noCache: true                如果设置为true，页面将不会被缓存(默认为false)
+    affix: true                  如果设置为true，此tag将tags-view中不能被点击删除
+    activeMenu: '/example/list'  当此页面打开并且为详情页时，会在侧边栏显示它设置的页面
+    permission: ['add', 'delete']此页面需要被权限控制的按钮或元素
   }
  */
 
@@ -52,7 +51,7 @@ export const constantRoutes = [
                 path: 'index',
                 component: () => import('@/views/dashboard/index'),
                 name: 'DashboardIndex',
-                meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
+                meta: { zhTitle: '工作台', enTitle: 'DASHBOARD', icon: 'dashboard', affix: true }
             }
         ]
     },
@@ -78,20 +77,20 @@ export const asyncRoutes = [
         path: '/program',
         component: Layout,
         redirect: '/program/list',
-        meta: { title: 'program', icon: 'dashboard' },
+        meta: { zhTitle: '程序管理', enTitle: 'PROGRAM', icon: 'dashboard' },
         children: [
             {
                 path: 'list',
                 component: () => import('@/views/program/list'),
                 name: 'ProgramList',
-                meta: { title: 'ProgramList', icon: 'dashboard' }
+                meta: { zhTitle: '程序管理', enTitle: 'PROGRAM', icon: 'dashboard' }
             },
             {
                 path: 'view',
                 component: () => import('@/views/program/view'),
                 name: 'ProgramView',
                 hidden: true,
-                meta: { title: 'ProgramView', icon: 'dashboard' }
+                meta: { zhTitle: '程序详情', enTitle: 'PROGRAM VIEW', icon: 'dashboard', activeMenu: '/program/list', noCache: true }
             }
         ]
     },
@@ -99,77 +98,83 @@ export const asyncRoutes = [
         path: '/technology',
         component: Layout,
         redirect: '/technology/bom-list',
-        meta: { title: 'technology', icon: 'dashboard' },
+        meta: { zhTitle: '工艺管理', enTitle: 'TENCHNOLOGY', icon: 'dashboard' },
         children: [
             {
                 path: 'bom-list',
                 component: () => import('@/views/technology/bom/list'),
                 name: 'TechnologyBomList',
-                meta: { title: 'TechnologyBomList', icon: 'dashboard' }
+                meta: { zhTitle: 'BOM管理', enTitle: 'BOM', icon: 'dashboard' }
             },
             {
                 path: 'bom-view',
                 component: () => import('@/views/technology/bom/view'),
                 name: 'TechnologyBomView',
-                meta: { title: 'TechnologyBomView', icon: 'dashboard' }
+                meta: { zhTitle: 'BOM详情', enTitle: 'BOM VIEW', icon: 'dashboard', noCache: true }
             },
             {
                 path: 'path',
                 component: BlankRouteLayout,
                 name: 'TechnologyPath',
-                meta: { title: 'TechnologyPath', icon: 'dashboard' },
+                meta: { zhTitle: '工艺路线', enTitle: 'TENCHNOLOGY PATH', icon: 'dashboard' },
                 children: [
                     {
                         path: 'work-step-list',
                         component: () => import('@/views/technology/work-step/list'),
                         name: 'TechnologyWorkStepList',
-                        meta: { title: 'TechnologyWorkStepList', icon: 'dashboard' }
+                        meta: { zhTitle: '工步', enTitle: 'WORK STEP', icon: 'dashboard' }
                     },
                     {
                         path: 'work-step-view',
                         component: () => import('@/views/technology/work-step/view'),
                         name: 'TechnologyWorkStepView',
-                        meta: { title: 'TechnologyWorkStepView', icon: 'dashboard' }
+                        meta: { zhTitle: '工步详情', enTitle: 'WORK STEP VIEW', icon: 'dashboard', noCache: true }
                     },
                     {
                         path: 'process-flow',
                         component: () => import('@/views/technology/process-flow/index'),
                         name: 'TechnologyProcessFlow',
-                        meta: { title: 'TechnologyProcessFlow', icon: 'dashboard' }
+                        meta: { zhTitle: '工序', enTitle: 'PROCESS FLOW', icon: 'dashboard' }
                     }
                 ]
-            },
+            }
         ]
     },
     {
         path: '/system',
         component: Layout,
         redirect: '/system/user',
-        meta: { title: 'system', icon: 'dashboard' },
+        meta: { zhTitle: '系统管理', enTitle: 'SYSTEM', icon: 'dashboard' },
         children: [
             {
                 path: 'user',
                 component: () => import('@/views/system/user'),
                 name: 'SystemUser',
-                meta: { title: 'SystemUser', icon: 'dashboard' }
+                meta: { zhTitle: '用户管理', enTitle: 'USER', icon: 'dashboard' }
             },
             {
                 path: 'role',
                 component: () => import('@/views/system/role'),
                 name: 'SystemRole',
-                meta: { title: 'SystemRole', icon: 'dashboard' }
+                meta: { zhTitle: '角色管理', enTitle: 'ROLE', icon: 'dashboard' }
             },
             {
-                path: 'dict',
-                component: () => import('@/views/system/dict'),
-                name: 'SystemDict',
-                meta: { title: 'SystemDict', icon: 'dashboard' }
+                path: 'auth',
+                component: () => import('@/views/system/auth'),
+                name: 'SystemAuth',
+                meta: { zhTitle: '权限管理', enTitle: 'AUTHORITY', icon: 'dashboard' }
             },
             {
                 path: 'router',
                 component: () => import('@/views/system/router'),
                 name: 'SystemRouter',
-                meta: { title: 'SystemRouter', icon: 'dashboard' }
+                meta: { zhTitle: '菜单路由', enTitle: 'ROUTER', icon: 'dashboard' }
+            },
+            {
+                path: 'dict',
+                component: () => import('@/views/system/dict'),
+                name: 'SystemDict',
+                meta: { zhTitle: '字典管理', enTitle: 'DICTIONARIES', icon: 'dashboard' }
             }
         ]
     },
