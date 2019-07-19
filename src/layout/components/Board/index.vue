@@ -24,7 +24,7 @@
         font-size: 0px;
         top: 0;
         bottom: 0;
-        left: 240px;
+        left: 220px;
         z-index: 1001;
         display: -webkit-flex;
         display: flex;

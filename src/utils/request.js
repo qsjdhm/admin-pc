@@ -82,7 +82,7 @@ Axios.interceptors.response.use(
 /**
  * 供页面调用的http请求，已绑定到vue原型上
  * 示例：（1）请求基础系统api
- * this.$fetch('/auth/login', 'post', {
+ * this.$fetch('/api/app/appVersionPage', 'post', {
  *     username: this.username,
  *     password: this.password
  * }).then((response) => {})
@@ -114,3 +114,4 @@ function fetch (interfaceUrl, method, parameters, baseURL) {
 }
 
 export default fetch;
+

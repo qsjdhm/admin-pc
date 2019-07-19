@@ -71,7 +71,7 @@
     $menuHover:#263445;
     $subMenuBg:#1f2d3d;
     $subMenuHover:#001528;
-    $sideBarWidth: 240px;
+    $sideBarWidth: 220px;
     $borderRadius: 5px;
     #app {
         .main-container {
