@@ -1,4 +1,5 @@
 import { MessageBox, Message } from 'element-ui'
+import Vue from 'vue'
 
 export default {
     namespaced: true,
@@ -27,7 +28,10 @@ export default {
         // 登录
         login ({dispatch, commit, state, rootState}, queryParam) {
             return new Promise((resolve, reject) => {
-                window.sessionStorage.setItem('Admin-Token', 'kjasbdljhbasjdbvjsab')
+                Vue.$fetch('/user/login', 'post', queryParam).then((response) => {
+                    console.info(response)
+                })
+                // window.sessionStorage.setItem('Admin-Token', 'kjasbdljhbasjdbvjsab')
                 resolve()
                 // 1.登录请求 - axios
                 // API.loginByUsername(queryParam).then(response => {

@@ -60,12 +60,18 @@
         },
         methods: {
             loginClick () {
-                this.$store.dispatch('user/login', {
+                this.$fetch('/user/login', 'post', {
                     username: this.username,
                     password: this.password
                 }).then((response) => {
-                    this.$router.push({ path: this.redirect || 'dashboard' })
+                    console.info(response)
                 })
+                // this.$store.dispatch('user/login', {
+                //     username: this.username,
+                //     password: this.password
+                // }).then((response) => {
+                //     this.$router.push({ path: this.redirect || 'dashboard' })
+                // })
                 // this.$fetch('/auth/login', 'post', {
                 //     username: this.username,
                 //     password: this.password
