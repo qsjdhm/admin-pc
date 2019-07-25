@@ -102,7 +102,7 @@ function fetch (interfaceUrl, method, parameters, baseURL) {
         method: method,
         data: parameters
     }).then((res) => {
-        if (res.code === 600) {
+        if (res.code === 200) {
             return res.data
         } else {
             return Promise.reject(res)

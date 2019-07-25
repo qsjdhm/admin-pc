@@ -1,12 +1,14 @@
 import Vue from 'vue'
 import App from './App.vue'
+import fetch from './utils/request'
+Vue.prototype.$fetch = fetch
 import store from './store/index'
 import router from './router/index'
 
 import Element from 'element-ui'
 // import './styles/element-variables.scss'
 
-import fetch from './utils/request'
+
 import './icons' // icon
 import './permission' // permission control
 
@@ -33,8 +35,6 @@ Vue.use(Element, {
 })
 
 Vue.config.productionTip = false
-Vue.prototype.$fetch = fetch
-
 
 
 new Vue({

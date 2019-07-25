@@ -60,30 +60,15 @@
         },
         methods: {
             loginClick () {
-                this.$fetch('/user/login', 'post', {
-                    username: this.username,
-                    password: this.password
-                }).then((response) => {
-                    console.info(response)
-                })
-                // this.$store.dispatch('user/login', {
+                // this.$fetch('/user/login', 'post', {
                 //     username: this.username,
                 //     password: this.password
                 // }).then((response) => {
-                //     this.$router.push({ path: this.redirect || 'dashboard' })
-                // })
-                // this.$fetch('/auth/login', 'post', {
-                //     username: this.username,
-                //     password: this.password
-                // }, process.env.VUE_APP_SCADA_API).then((response) => {
-                //     console.info('login-------------------')
                 //     console.info(response)
                 // })
-                // this.$store.dispatch('user/login', {username: this.username, password: this.password}).then((authority) => {
-                //     this.$router.push({ path: this.redirect || 'dashboard' })
-                // }).catch((error) => {
-                //     this.$message.error(error.message);
-                // })
+                this.$store.dispatch('user/login', {username: this.username, password: this.password}).then((token) => {
+                    this.$router.push({ path: this.redirect || 'dashboard' })
+                })
             }
         }
     }

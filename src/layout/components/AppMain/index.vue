@@ -31,6 +31,7 @@
         right: 0;
         top: 84px;
         bottom: 0;
+        padding: 15px;
     }
 
     .fixed-header+.app-main {

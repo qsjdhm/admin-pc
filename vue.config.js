@@ -25,7 +25,7 @@ module.exports = {
         proxy: {
             // 基础系统的ip地址
             [process.env.VUE_APP_BASE_API]: {
-                target: `http://127.0.0.1:9527`,
+                target: `http://127.0.0.1:9527/mock`,
                 // target: `http://10.100.172.150:9105`,
                 changeOrigin: true,
                 pathRewrite: {

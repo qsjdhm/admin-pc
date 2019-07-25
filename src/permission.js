@@ -14,7 +14,7 @@ NProgress.configure({
     showSpinner: false
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async(to, from, next) => {
     NProgress.start()
     // token没有用户信息，代表没有登录过
     if (!window.sessionStorage.getItem('Admin-Token')) {
@@ -30,11 +30,12 @@ router.beforeEach((to, from, next) => {
         // 如果store中没有路由数据，就初始化路由
         // 只要登录过就肯定初始化过路由，初始化过路由routes的长度就肯定不是0（因为合并的时候会把固定框架级路由合进去）
         if (store.state.permission.routes.length === 0) {
-            // 初始化菜单路由
-            store.dispatch('permission/initRoutes').then(() => {
+            // 获取用户信息：名称、菜单、按钮资源等
+            const userInfo = await store.dispatch('user/getUserInfo')
+            // 初始化菜单路由(主要是合并框架路由、当前用户所拥有的业务路由、404路由)
+            store.dispatch('permission/initRoutes', JSON.parse(userInfo.permission)).then(() => {
                 // 动态添加可访问路由表
                 router.addRoutes(store.state.permission.routes)
-                console.info(store.state.permission.routes)
                 // hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
                 next({ ...to, replace: true })
             }).catch((error) => {

@@ -6,9 +6,8 @@
 </template>
 
 <script>
-// @ is an alias to /src
-
-export default {
-    name: 'BigScreenLayout'
-}
+    // @ is an alias to /src
+    export default {
+        name: 'BigScreenLayout'
+    }
 </script>
