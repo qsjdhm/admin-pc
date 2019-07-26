@@ -57,46 +57,6 @@
             // 节点点击事件
             nodeClick (nodeData) {
                 this.value = _.cloneDeep(nodeData)
-                // if (!nodeData.children) {
-                //     // 如果叶子节点，就把叶子节点显示在右侧供编辑
-                //     this.value = _.cloneDeep(nodeData)
-                // } else {
-                //     // 如果分支节点，就
-                //     this.value = _.cloneDeep(nodeData.children)
-                // }
-                // this.value = _.cloneDeep(nodeData.children)
-            },
-            // 根据path获取它的children，用于右侧编辑
-            getChildrenByPath (path) {
-                // 遍历后台传来的路由字符串，转换为组件对象
-                let accessedRoutes = []
-                this.treeRoutes.forEach(route => {
-                    console.info(route)
-                    // if (route.path === path) {
-                    //     accessedRoutes = _.cloneDeep(route.children)
-                    // }
-                    // if (route.children && route.children.length) {
-                    //     route.children = this.getChildrenByPath(route.children)
-                    // }
-                    // if (router.component) {
-                    //     if (router.component === 'Layout') {
-                    //         // Layout组件特殊处理
-                    //         router.component = Layout
-                    //     } else if (router.component === 'BlankRouteLayout') {
-                    //         router.component = BlankRouteLayout
-                    //     } else if (router.component === 'BigScreenLayout') {
-                    //         router.component = BigScreenLayout
-                    //     } else {
-                    //         const component = router.component
-                    //         router.component = () => import(`@/views${component}`)
-                    //     }
-                    // }
-                    // if (router.children && router.children.length) {
-                    //     router.children = getChildrenByPath(router.children)
-                    // }
-                    // accessedRoutes.push(router)
-                })
-                return accessedRoutes
             }
         }
     }
