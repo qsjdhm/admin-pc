@@ -48,7 +48,7 @@
                 </div>
             </el-tooltip>
             <el-tooltip class="item" effect="dark" content="登出" placement="bottom">
-                <div class="logout-pack">
+                <div class="logout-pack" @click="logoutClick">
                     <img class="logout" :src="require(`./images/logout.png`)">
                 </div>
             </el-tooltip>
@@ -92,6 +92,13 @@
                 }
                 screenfull.toggle()
                 this.foldClick()
+            },
+            logoutClick () {
+                this.$store.dispatch('user/logout').then(() => {
+                    this.$store.dispatch('permission/clearRoutes').then(() => {
+                        this.$router.push({ path: '/' })
+                    })
+                })
             },
             dropdownCommand (command) {},
             loadAll() {

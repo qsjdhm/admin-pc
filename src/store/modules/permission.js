@@ -39,6 +39,10 @@ export default {
         SET_ROUTES: (state, addRoutes) => {
             // 把框架级路由和业务级路由进行合并
             state.routes = constantRoutes.concat(addRoutes)
+        },
+        CLEAR_ROUTES: (state, addRoutes) => {
+            // 把框架级路由和业务级路由进行合并
+            state.routes = []
         }
     },
     actions: {
@@ -53,6 +57,13 @@ export default {
                 const accessedRoutes = filterAsyncRoutes(asyncRoutes).concat(errorRoutes)
                 commit('SET_ROUTES', accessedRoutes)
                 resolve(accessedRoutes)
+            })
+        },
+        // 清空菜单路由（用于登出操作）
+        clearRoutes ({dispatch, commit, state, rootState}) {
+            return new Promise(resolve => {
+                commit('CLEAR_ROUTES')
+                resolve()
             })
         }
     }

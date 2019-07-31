@@ -29,16 +29,25 @@ export default {
         // 登录
         login ({dispatch, commit, state, rootState}, queryParam) {
             return new Promise((resolve, reject) => {
+                console.info(queryParam)
                 fetch('/user/login', 'post', queryParam).then((response) => {
                     window.sessionStorage.setItem('Admin-Token', response)
                     resolve()
                 })
             });
         },
+        // 登出
+        logout ({dispatch, commit, state, rootState}, queryParam) {
+            return new Promise((resolve, reject) => {
+                window.sessionStorage.setItem('Admin-Token', '')
+                resolve()
+            });
+        },
         // 获取用户信息
         getUserInfo ({dispatch, commit, state, rootState}) {
             return new Promise((resolve, reject) => {
-                fetch('/user/getUserInfo', 'get').then((response) => {
+                let token = window.sessionStorage.getItem('Admin-Token')
+                fetch('/user/getUserInfo', 'get', {token: token}).then((response) => {
                     resolve(response)
                 })
             });

@@ -12,11 +12,19 @@
                 @node-click="nodeClick"
             />
         </div>
-        <div class="editor-pack">
+        <div class="content-pack">
             <div class="tip-pack">
-                提示：一些配置提示
+                <div class="tip">
+                    提示：点击【路由规则】按钮，可查看路由编写规则
+                </div>
+                <div class="button-pack">
+                    <el-button type="primary" size="mini">保存</el-button>
+                    <el-button size="mini">路由规则</el-button>
+                </div>
             </div>
-            <json-editor ref="jsonEditor" v-model="value" />
+            <div class="editor-pack">
+                <json-editor ref="jsonEditor" v-model="value" />
+            </div>
         </div>
     </div>
 </template>
@@ -81,7 +89,7 @@
                 color: #fff;
             }
         }
-        .editor-pack{
+        .content-pack{
             background: #fff;
             border: 1px solid #efefef;
             border-radius: 3px;
@@ -90,16 +98,26 @@
             left: 360px;
             right: 0;
             text-align: left;
-            overflow: auto;
             .tip-pack {
                 font-size: 14px;
-                height: 30px;
-                line-height: 30px;
+                height: 40px;
+                line-height: 40px;
                 padding-left: 10px;
+                display: -webkit-flex; /* Safari */
+                display: flex;
+                justify-content: space-between;
+                padding: 0 15px;
             }
-            .json-editor {
-                line-height: 2;
-                font-size: 16px;
+            .editor-pack {
+                position: absolute;
+                top: 40px;
+                bottom: 0;
+                width: 100%;
+                overflow-y: auto;
+                .json-editor {
+                    line-height: 2;
+                    font-size: 16px;
+                }
             }
         }
     }

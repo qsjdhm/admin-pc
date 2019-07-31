@@ -33,6 +33,9 @@ router.beforeEach(async(to, from, next) => {
             // 获取用户信息：名称、菜单、按钮资源等
             const userInfo = await store.dispatch('user/getUserInfo')
             // 初始化菜单路由(主要是合并框架路由、当前用户所拥有的业务路由、404路由)
+            console.info(JSON.parse(userInfo.permission))
+            console.info(JSON.parse(userInfo.permission))
+            console.info(JSON.parse(userInfo.permission))
             store.dispatch('permission/initRoutes', JSON.parse(userInfo.permission)).then(() => {
                 // 动态添加可访问路由表
                 router.addRoutes(store.state.permission.routes)
