@@ -14,7 +14,8 @@ export const programRoute = {
                 {key: 'add', name: '新增'},
                 {key: 'edit', name: '编辑'},
                 {key: 'delete', name: '删除'},
-                {key: 'view', name: '查看详情'}
+                {key: 'view', name: '查看详情'},
+                {key: 'view1', name: '查看详情1'}
             ]
         },
         {

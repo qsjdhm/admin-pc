@@ -69,18 +69,20 @@
             :close-on-click-modal="false"
             :show-close="false"
             :visible.sync="functionDialog"
-            width="850px"
+            width="950px"
+            class="function-dialog"
         >
             <div class="function-config-pack">
                 <div class="tip-pack">
                     <span class="flag" />
                     <span class="name">普通用户功能权限【USER-FUNCTION-1】</span>
                 </div>
-                <div class="function-table-pack">
+                <div ref="functionTablePack" class="function-table-pack">
                     <el-table
-                        :data="functionTableData"
-                        style="width: 810px;"
-                        row-key="id"
+                        :data="allRoutes"
+                        :height="460"
+                        style="width: 910px;"
+                        row-key="path"
                         border
                         default-expand-all
                         :tree-props="{children: 'children'}"
@@ -91,13 +93,19 @@
                             width="260"
                         >
                             <template slot-scope="scope">
-                                {{ scope.row.date }}
+                                {{ scope.row.meta.zhTitle }}
                             </template>
                         </el-table-column>
                         <el-table-column
                             prop="name"
                             label="功能"
-                        />
+                        >
+                            <template slot-scope="scope">
+                                <div v-for="(data, index) in scope.row.permission" :key="index" class="function-item">
+                                    <span>{{ data.name }}</span>
+                                </div>
+                            </template>
+                        </el-table-column>
                     </el-table>
                 </div>
             </div>
@@ -150,62 +158,11 @@
                     type: 'DATA'
                 }],
                 functionDialog: false,
-                functionTableData: [{
-                    id: 1,
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                    id: 2,
-                    date: '2016-05-04',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1517 弄'
-                }, {
-                    id: 3,
-                    date: '2016-05-01',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1519 弄',
-                    children: [{
-                        id: 31,
-                        date: '2016-05-01',
-                        name: '王小虎',
-                        address: '上海市普陀区金沙江路 1519 弄'
-                    }, {
-                        id: 32,
-                        date: '2016-05-01',
-                        name: '王小虎',
-                        address: '上海市普陀区金沙江路 1519 弄'
-                    }]
-                }, {
-                    id: 4,
-                    date: '2016-05-03',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1516 弄'
-                }],
-                tableData1: [{
-                    id: 1,
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                    id: 2,
-                    date: '2016-05-04',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1517 弄'
-                }, {
-                    id: 3,
-                    date: '2016-05-01',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1519 弄'
-                }, {
-                    id: 4,
-                    date: '2016-05-03',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1516 弄'
-                }]
+                allRoutes: []
             }
         },
-        mounted () {
+        async mounted () {
+            this.allRoutes = _.cloneDeep(await this.$store.dispatch('permission/getAllList'))
             setTimeout(() => {
                 this.tableHeight = this.$refs.contentPack.offsetHeight - 50
             }, 0)
@@ -268,9 +225,7 @@
         }
 
         .function-config-pack {
-            height: auto;
-            min-height: 200px;
-            max-height: 500px;
+            height: 500px;
 
             .tip-pack {
                 width: 100%;
@@ -298,6 +253,14 @@
             }
             .content-pack {
                 height: 100%;
+            }
+        }
+        .function-dialog {
+            .function-item {
+                width: 25%;
+                float: left;
+                min-height: 30px;
+                line-height: 30px;
             }
         }
     }
