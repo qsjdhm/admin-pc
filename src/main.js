@@ -1,20 +1,13 @@
 import Vue from 'vue'
 import App from './App.vue'
 import fetch from './utils/request'
-Vue.prototype.$fetch = fetch
 import store from './store/index'
 import router from './router/index'
-
 import Element from 'element-ui'
-// import './styles/element-variables.scss'
-
-
+import './styles/element-variables.scss'
+import '@/styles/index.scss' // 统一进入css文件入口
 import './icons' // icon
 import './permission' // permission control
-
-import '@/styles/index.scss' // 统一进入css文件入口
-
-Vue.use(Element)
 
 
 /**
@@ -31,11 +24,11 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 Vue.use(Element, {
-  size: 'medium' // set element-ui default size
+  size: 'mini' // set element-ui default size
 })
 
 Vue.config.productionTip = false
-
+Vue.prototype.$fetch = fetch
 
 new Vue({
     store,

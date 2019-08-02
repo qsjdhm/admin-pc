@@ -2,13 +2,14 @@
     <div class="router">
         <div class="structure-pack">
             <el-tree
+                ref="routeTree"
                 node-key="path"
                 highlight-current
                 default-expand-all
                 empty-text="系统暂无业务菜单"
                 :data="treeRoutes"
                 :props="defaultProps"
-                :default-expanded-keys="keys"
+                :expand-on-click-node="false"
                 @node-click="nodeClick"
             />
         </div>
@@ -18,7 +19,7 @@
                     提示：点击【路由规则】按钮，可查看路由编写规则
                 </div>
                 <div class="button-pack">
-                    <el-button type="primary" size="mini">保存</el-button>
+                    <el-button type="primary" size="mini" @click="saveClick">保存</el-button>
                     <el-button size="mini">路由规则</el-button>
                 </div>
             </div>
@@ -39,7 +40,6 @@
         data () {
             return {
                 value: '',
-                keys: ['root'],
                 treeRoutes: [],
                 defaultProps: {
                     children: 'children',
@@ -53,18 +53,27 @@
             }
         },
         async mounted () {
-            const userInfo = await this.$store.dispatch('user/getUserInfo')
-            this.value = JSON.parse(userInfo.permission)
+            this.value = _.cloneDeep(await this.$store.dispatch('permission/getAllList'))
             this.treeRoutes = [{
                 path: 'root',
                 meta: { zhTitle: '系统业务路由' },
                 children: this.value
             }]
+            setTimeout(() => {
+                this.$refs.routeTree.setCurrentKey('root');
+            }, 0)
         },
         methods: {
             // 节点点击事件
             nodeClick (nodeData) {
-                this.value = _.cloneDeep(nodeData)
+                if (nodeData.path === 'root') {
+                    this.value = _.cloneDeep(nodeData.children)
+                } else {
+                    this.value = _.cloneDeep(nodeData)
+                }
+            },
+            saveClick () {
+                console.info(this.value)
             }
         }
     }

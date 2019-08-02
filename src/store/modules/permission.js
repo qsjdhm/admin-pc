@@ -1,3 +1,4 @@
+import fetch from '@/utils/request'
 import { constantRoutes, errorRoutes } from '@/router'
 import Layout from '@/layout/index'
 import BlankRouteLayout from '@/layout/blank-route-layout'
@@ -65,6 +66,24 @@ export default {
                 commit('CLEAR_ROUTES')
                 resolve()
             })
+        },
+        // 根据用户获取对应权限
+        getListByUser ({dispatch, commit, state, rootState}) {
+            return new Promise((resolve, reject) => {
+                let token = window.sessionStorage.getItem('Admin-Token')
+                fetch('/permission/getListByUser', 'get', {token: token}).then((response) => {
+                    resolve(response)
+                })
+            });
+        },
+        // 获取所有业务路由
+        getAllList ({dispatch, commit, state, rootState}) {
+            return new Promise((resolve, reject) => {
+                let token = window.sessionStorage.getItem('Admin-Token')
+                fetch('/permission/getAllList', 'get', {token: token}).then((response) => {
+                    resolve(response)
+                })
+            });
         }
     }
 };

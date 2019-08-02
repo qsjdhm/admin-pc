@@ -45,26 +45,16 @@ export default {
         },
         // 获取用户信息
         getUserInfo ({dispatch, commit, state, rootState}) {
-            return new Promise((resolve, reject) => {
+            return new Promise(async(resolve, reject) => {
                 let token = window.sessionStorage.getItem('Admin-Token')
-                fetch('/user/getUserInfo', 'get', {token: token}).then((response) => {
-                    resolve(response)
-                })
+                let userInfo = await fetch('/user/getUserInfo', 'get', {token: token})
+                resolve(userInfo)
+                // let permission = await fetch('/permission/getListByUser', 'get', {token: token})
+                // resolve({
+                //     userInfo: userInfo,
+                //     permission: permission
+                // })
             });
         }
-        // // 获取用户权限
-        // getUserAuthority ({dispatch, commit, state, rootState}, queryParam) {
-        //     return new Promise((resolve, reject) => {
-        //         API.getUserAuthority(queryParam).then(response => {
-        //             if (response.code === 600) {
-        //                 window.sessionStorage.setItem('Admin-Username', userInfo.username)
-        //                 window.sessionStorage.setItem('Admin-Name', userInfo.name)
-        //                 resolve()
-        //             } else {
-        //                 reject(response)
-        //             }
-        //         })
-        //     });
-        // }
     }
 };
