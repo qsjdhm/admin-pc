@@ -66,5 +66,26 @@ export default [
                 data: routes
             }
         }
+    },
+
+    // 根据权限获取所有的路由列表
+    {
+        url: '/permission/getListByAuth',
+        type: 'get',
+        response: config => {
+            let routes = [];
+            let authCode = config.query.authCode;
+            if (authCode === 'USER-FUNCTION-1') {
+                routes = [programRoute]
+            } else if (authCode === 'ADMIN-FUNCTION-1') {
+                routes = [programRoute, technologyRoute]
+            } else {
+                routes = [programRoute, technologyRoute, systemRoute]
+            }
+            return {
+                code: 200,
+                data: routes
+            }
+        }
     }
 ]

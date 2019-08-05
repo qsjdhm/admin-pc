@@ -79,7 +79,7 @@
                 </div>
                 <div ref="functionTablePack" class="function-table-pack">
                     <el-table
-                        :data="allRoutes"
+                        :data="actionableRoutes"
                         :height="460"
                         style="width: 810px;"
                         row-key="path"
@@ -94,6 +94,10 @@
                         >
                             <template slot-scope="scope">
                                 {{ scope.row.meta.zhTitle }}
+                                <div class="menu-checkbox-pack">
+                                    <!--<el-checkbox v-model="scope.row.checked" @change="menuChange(scope.row)" />-->
+                                    <input v-model="scope.row.checked" type="checkbox" @change="menuChange(scope.row)">
+                                </div>
                             </template>
                         </el-table-column>
                         <el-table-column
@@ -102,7 +106,9 @@
                         >
                             <template slot-scope="scope">
                                 <div v-for="(data, index) in scope.row.permission" :key="index" class="function-item">
-                                    <span>{{ data.name }}</span>
+                                    <!--<el-checkbox v-model="data.checked" @change="permissionChange(data)">{{ data.name }}</el-checkbox>-->
+                                    <input v-model="data.checked" type="checkbox" @change="permissionChange(scope.row, data)">
+                                    <label>{{ data.name }}</label>
                                 </div>
                             </template>
                         </el-table-column>
@@ -110,8 +116,8 @@
                 </div>
             </div>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="functionDialog = false">取 消</el-button>
-                <el-button type="primary" @click="functionDialog = false">确 定</el-button>
+                <el-button @click="cancelClick">取 消</el-button>
+                <el-button type="primary" @click="confirmClick">确 定</el-button>
             </span>
         </el-dialog>
     </div>
@@ -158,27 +164,95 @@
                     type: 'DATA'
                 }],
                 functionDialog: false,
-                allRoutes: []
+                backupAllRoutes: [],  // 空白路由备份
+                authRoutes: [],
+                actionableRoutes: []  // 过滤好的路由列表
             }
         },
         async mounted () {
-            this.allRoutes = _.cloneDeep(await this.$store.dispatch('permission/getAllList'))
+            this.backupAllRoutes = _.cloneDeep(await this.$store.dispatch('permission/getAllList'))
             setTimeout(() => {
                 this.tableHeight = this.$refs.contentPack.offsetHeight - 50
             }, 0)
         },
         methods: {
+            // 菜单checkbox 点击事件
+            menuChange (row) {
+                if (row.permission && row.permission.length > 0) {
+                    row.permission.map((item) => {
+                        item.checked = row.checked
+                    })
+                    // TODO:
+                    // 数据改变，但是dom没改变，猜测是复杂数据vue可以监听到，但是复杂数据对应的复杂dom vue应该没处理好
+                    // 所以这里，重新倒腾一下数据进行赋值
+                    let list = _.cloneDeep(this.actionableRoutes)
+                    this.actionableRoutes = _.cloneDeep(list)
+                }
+            },
+            // 功能checkbox 点击事件
+            permissionChange (menu, permission) {
+                // 如果这个页面有一个功能按钮选中了，那么这个肯定要被选中
+                if (permission.checked === true) {
+                    menu.checked = true
+                }
+            },
             configClick (row) {
-                console.info(row)
                 this.functionDialog = true;
+                this.$fetch('/permission/getListByAuth', 'get', {
+                    authCode: row.code
+                }).then((response) => {
+                    this.authRoutes = _.cloneDeep(response)
+                    // 初始化此权限弹框数据
+                    this.initAuthPermission();
+                })
+            },
+            confirmClick () {
+                // this.functionDialog = false;
+                console.info(this.actionableRoutes)
+                // 重置路由选中状态
+                // this.actionableRoutes = _.cloneDeep(this.backupAllRoutes)
+            },
+            cancelClick () {
+                this.functionDialog = false;
+                // 重置路由选中状态
+                this.actionableRoutes = _.cloneDeep(this.backupAllRoutes)
             },
             handleSelectionChange () {},
-            handleClose(done) {
-                this.$confirm('确认关闭？')
-                    .then(_ => {
-                        done();
-                    })
-                    .catch(_ => {});
+            // 初始化此权限弹框数据
+            initAuthPermission () {
+                // 空白路由列表和权限所属路由列表对比
+                this.actionableRoutes = _.cloneDeep(this.backupAllRoutes)
+                this.authRoutes.map((item) => {
+                    this.setActionableRoutesChecked(item, this.actionableRoutes)
+                })
+            },
+            // 根据路由，匹配对应的路由列表
+            // 每当当前路由的path对应，就把route的对应路由表再次递归遍历，设置children或子子children的路由选中
+            // route 当前路由
+            // matchedRoutes 当前路由对应的路由表（被用来设置是否需要选中）
+            setActionableRoutesChecked (route, matchedRoutes) {
+                matchedRoutes.map((matchedItem) => {
+                    if (route.path === matchedItem.path) {
+                        // 1. 设置菜单选中
+                        matchedItem.checked = true
+                        // 2. 设置按钮等元素选中
+                        if (route.permission && route.permission.length > 0) {
+                            route.permission.map((routePermissionItem) => {
+                                matchedItem.permission.map((matchedPermissionItem) => {
+                                    if (routePermissionItem.key === matchedPermissionItem.key) {
+                                        matchedPermissionItem.checked = true
+                                    }
+                                })
+                            })
+                        }
+                        // 3. 如发现有children，递归遍历重复以上操作
+                        if (route.children && route.children.length > 0) {
+                            route.children.map((routeItem) => {
+                                this.setActionableRoutesChecked(routeItem, matchedItem.children)
+                            })
+                        }
+                    }
+                })
             }
         }
     }
@@ -261,6 +335,21 @@
                 float: left;
                 min-height: 30px;
                 line-height: 30px;
+                display: flex;
+                align-items: center;
+                input {
+                    margin-right: 10px;
+                }
+            }
+            .menu-checkbox-pack {
+                float: right;
+                min-height: 30px;
+                line-height: 30px;
+                display: flex;
+                align-items: center;
+                input {
+                    margin-right: 5px;
+                }
             }
         }
     }
