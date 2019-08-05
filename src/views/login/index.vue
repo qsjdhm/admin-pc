@@ -9,29 +9,32 @@
                 <div class="username-pack">
                     <el-input
                         v-model="username"
+                        size="medium"
                         placeholder="请输入用户名"
                         @keyup.enter.native="loginClick"
                     >
                         <template slot="prepend">
-                            <i class="iconfont iconyonghu" />
+                            <svg-icon icon-class="user" />
                         </template>
                     </el-input>
                 </div>
                 <div class="password-pack">
                     <el-input
                         v-model="password"
+                        size="medium"
                         type="password"
                         placeholder="请输入密码"
                         @keyup.enter.native="loginClick"
                     >
                         <template slot="prepend">
-                            <i class="iconfont iconmima" />
+                            <svg-icon icon-class="password" />
                         </template>
                     </el-input>
                 </div>
             </div>
             <div class="button-pack">
-                <el-button type="primary" @click="loginClick">登录</el-button>
+                <el-button v-if="loading" disabled :loading="true" type="primary">登录中</el-button>
+                <el-button v-else type="primary" @click="loginClick">登录</el-button>
             </div>
             <div class="version-pack">version 1.0.0 前端大佬提供技术支持</div>
         </div>
@@ -47,6 +50,7 @@
             return {
                 username: 'root',
                 password: '123456',
+                loading: false,
                 redirect: null
             }
         },
@@ -60,14 +64,14 @@
         },
         methods: {
             loginClick () {
-                // this.$fetch('/user/login', 'post', {
-                //     username: this.username,
-                //     password: this.password
-                // }).then((response) => {
-                //     console.info(response)
-                // })
+                this.loading = true;
                 this.$store.dispatch('user/login', {username: this.username, password: this.password}).then((token) => {
-                    this.$router.push({ path: this.redirect || 'dashboard' })
+                    setTimeout (() => {
+                        this.loading = false;
+                        this.$router.push({ path: this.redirect || 'dashboard' })
+                    }, 1500)
+                }).catch(() => {
+                    this.loading = false;
                 })
             }
         }
@@ -130,6 +134,18 @@
 
             .button-pack {
                 margin-top: 60px;
+                /deep/ .el-button {
+                    width: 100%;
+                    border-radius: 33px;
+                    height: 60px;
+                    font-size: 24px;
+                }
+
+                /deep/ .el-button--primary {
+                    background-color: #4977fc;
+                    border: 1px solid #1a72fe;
+                    box-shadow: 0px 6px 16px 2px rgba(73, 119, 252, 0.45);
+                }
             }
         }
 

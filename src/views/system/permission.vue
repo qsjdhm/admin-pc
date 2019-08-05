@@ -69,7 +69,7 @@
             :close-on-click-modal="false"
             :show-close="false"
             :visible.sync="functionDialog"
-            width="950px"
+            width="850px"
             class="function-dialog"
         >
             <div class="function-config-pack">
@@ -81,7 +81,7 @@
                     <el-table
                         :data="allRoutes"
                         :height="460"
-                        style="width: 910px;"
+                        style="width: 810px;"
                         row-key="path"
                         border
                         default-expand-all
@@ -90,7 +90,7 @@
                         <el-table-column
                             prop="date"
                             label="菜单"
-                            width="260"
+                            width="200"
                         >
                             <template slot-scope="scope">
                                 {{ scope.row.meta.zhTitle }}
