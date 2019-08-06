@@ -92,6 +92,16 @@
                             label="菜单"
                             width="200"
                         >
+                            <template slot="header">
+                                <div class="custom-th-pack">
+                                    <span>菜单</span>
+                                    <div class="all-checkbox-pack">
+                                        <span>全选</span>
+                                        <input v-model="allChecked" type="checkbox" @change="allChange()">
+                                    </div>
+                                </div>
+                            </template>
+
                             <template slot-scope="scope">
                                 {{ scope.row.meta.zhTitle }}
                                 <div class="menu-checkbox-pack">
@@ -164,9 +174,11 @@
                     type: 'DATA'
                 }],
                 functionDialog: false,
+                allChecked: false,
                 backupAllRoutes: [],  // 空白路由备份
-                authRoutes: [],
-                actionableRoutes: []  // 过滤好的路由列表
+                authRoutes: [],  // 此权限拥有的权限
+                actionableRoutes: [],  // 过滤好的路由列表
+                submitList: []  // 用于提交的数据
             }
         },
         async mounted () {
@@ -176,26 +188,8 @@
             }, 0)
         },
         methods: {
-            // 菜单checkbox 点击事件
-            menuChange (row) {
-                if (row.permission && row.permission.length > 0) {
-                    row.permission.map((item) => {
-                        item.checked = row.checked
-                    })
-                    // TODO:
-                    // 数据改变，但是dom没改变，猜测是复杂数据vue可以监听到，但是复杂数据对应的复杂dom vue应该没处理好
-                    // 所以这里，重新倒腾一下数据进行赋值
-                    let list = _.cloneDeep(this.actionableRoutes)
-                    this.actionableRoutes = _.cloneDeep(list)
-                }
-            },
-            // 功能checkbox 点击事件
-            permissionChange (menu, permission) {
-                // 如果这个页面有一个功能按钮选中了，那么这个肯定要被选中
-                if (permission.checked === true) {
-                    menu.checked = true
-                }
-            },
+            /*********************************响应事件********************************/
+            handleSelectionChange () {},
             configClick (row) {
                 this.functionDialog = true;
                 this.$fetch('/permission/getListByAuth', 'get', {
@@ -206,18 +200,55 @@
                     this.initAuthPermission();
                 })
             },
+            // 全选checkbox 点击事件
+            allChange () {
+                // 根据全选状态设置所有菜单、按钮、dom是否被选中
+                this.actionableRoutes.map((item) => {
+                    this.setPermissionState(item, this.allChecked)
+                })
+                // TODO:
+                // 数据改变，但是dom没改变，猜测是复杂数据vue可以监听到，但是复杂数据对应的复杂dom vue应该没处理好
+                // 所以这里，重新倒腾一下数据进行赋值
+                let list = _.cloneDeep(this.actionableRoutes)
+                this.actionableRoutes = _.cloneDeep(list)
+            },
+            // 菜单checkbox 点击事件
+            menuChange (row) {
+                // 1. 处理按钮等权限
+                if (row.permission && row.permission.length > 0) {
+                    row.permission.map((item) => {
+                        item.checked = row.checked
+                    })
+                }
+                // 2. 如果当前菜单选中/取消选中，它的children都应该选中/取消选中
+                this.setPermissionState(row, row.checked)
+                // TODO:
+                // 数据改变，但是dom没改变，猜测是复杂数据vue可以监听到，但是复杂数据对应的复杂dom vue应该没处理好
+                // 所以这里，重新倒腾一下数据进行赋值
+                let list = _.cloneDeep(this.actionableRoutes)
+                this.actionableRoutes = _.cloneDeep(list)
+            },
+            // 功能checkbox 点击事件
+            permissionChange (menu, permission) {
+                // 如果这个页面有一个功能按钮选中了，那么这个肯定要被选中
+                if (permission.checked === true) {
+                    menu.checked = true
+                }
+            },
             confirmClick () {
-                // this.functionDialog = false;
-                console.info(this.actionableRoutes)
+                this.functionDialog = false;
+                this.submitList = _.cloneDeep(this.actionableRoutes);
+                this.getCheckedPermission(this.submitList)
+                console.info(this.submitList)
                 // 重置路由选中状态
-                // this.actionableRoutes = _.cloneDeep(this.backupAllRoutes)
+                this.actionableRoutes = _.cloneDeep(this.backupAllRoutes)
             },
             cancelClick () {
                 this.functionDialog = false;
                 // 重置路由选中状态
                 this.actionableRoutes = _.cloneDeep(this.backupAllRoutes)
             },
-            handleSelectionChange () {},
+            /*********************************功能方法********************************/
             // 初始化此权限弹框数据
             initAuthPermission () {
                 // 空白路由列表和权限所属路由列表对比
@@ -253,6 +284,51 @@
                         }
                     }
                 })
+            },
+            // 设置每个权限的状态
+            setPermissionState (data, state) {
+                // 1. 设置菜单状态
+                data.checked = state
+                // 2. 设置按钮等元素选中
+                if (data.permission && data.permission.length > 0) {
+                    data.permission.map((item) => {
+                        item.checked = state
+                    })
+                }
+                // 3. 如发现有children，递归遍历重复以上操作
+                if (data.children && data.children.length > 0) {
+                    data.children.map((item) => {
+                        this.setPermissionState(item, state)
+                    })
+                }
+            },
+            // 获取保存的所有选中权限
+            getCheckedPermission (list) {
+                // TODO:
+                // 因为map在index--后无法减少数组总长度，所以只能用for循环，i--之后再减掉len的长度
+                for (let i = 0, len = list.length; i < len; i++) {
+                    // 1. 删除菜单未选中的项
+                    if (list[i].checked !== true) {
+                        list.splice(i, 1);
+                        i--
+                        len--
+                    } else {
+                        // 2. 删除未选中的按钮等元素
+                        if (list[i].permission && list[i].permission.length > 0) {
+                            for (let pi = 0, pLen = list[i].permission.length; pi < pLen; pi++) {
+                                if (list[i].permission[pi].checked !== true) {
+                                    list[i].permission.splice(pi, 1);
+                                    pi--
+                                    pLen--
+                                }
+                            }
+                        }
+                        // 3. 如果有children，递归重复以上操作
+                        if (list[i].children && list[i].children.length > 0) {
+                            this.getCheckedPermission(list[i].children)
+                        }
+                    }
+                }
             }
         }
     }
@@ -339,6 +415,28 @@
                 align-items: center;
                 input {
                     margin-right: 10px;
+                }
+            }
+            .custom-th-pack {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding-right: 0;
+                min-height: 30px;
+                line-height: 30px;
+                .all-checkbox-pack {
+                    float: right;
+                    min-height: 30px;
+                    line-height: 30px;
+                    display: flex;
+                    align-items: center;
+                    padding: 0;
+                    span {
+                        margin-right: 10px;
+                    }
+                    input {
+                        margin-right: 5px;
+                    }
                 }
             }
             .menu-checkbox-pack {
