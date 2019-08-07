@@ -72,6 +72,7 @@ export default {
             return new Promise((resolve, reject) => {
                 let token = window.sessionStorage.getItem('Admin-Token')
                 fetch('/permission/getListByUser', 'get', {token: token}).then((response) => {
+                    window.sessionStorage.setItem('Admin-Permission', response)
                     resolve(response)
                 })
             });

@@ -128,7 +128,14 @@ export const systemRoute = {
             path: 'dict',
             component: '/system/dict',
             name: 'SystemDict',
-            meta: { zhTitle: '字典管理', enTitle: 'DICTIONARIES', icon: 'dashboard' }
+            meta: { zhTitle: '字典管理', enTitle: 'DICTIONARIES', icon: 'dashboard' },
+            permission: [
+                {key: 'add', name: '新增'},
+                {key: 'batcheDelete', name: '批量删除'},
+                {key: 'config', name: '配置'},
+                {key: 'edit', name: '编辑'},
+                {key: 'delete', name: '删除'}
+            ]
         }
     ]
 }
