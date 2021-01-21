@@ -17,7 +17,7 @@ npm run build
 
 ### Run your tests
 ```
-npm run test1122
+npm run test112233
 ```
 
 ### Lints and fixes files
