@@ -12,7 +12,7 @@ npm run dev
 
 ### Compiles and minifies for production
 ```
-npm run build
+npm run build11
 ```
 
 ### Run your tests
