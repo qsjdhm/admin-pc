@@ -2,7 +2,7 @@
 网上认识人信任
 ## Project setup
 ```
-npm install112211
+npm install11221121212
 ```
 
 ### Compiles and hot-reloads for development
